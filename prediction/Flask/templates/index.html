@@ -17,24 +17,20 @@
       color: #5F9EA0;
       font-size: 30px;
     }
-
     table {
       color: DimGrey;
       font-family: 'Encode Sans', sans-serif;
       font-size: 16px;
     }
-
     input[type=text] {
       padding: 5px;
       border: 2px solid #ccc;
       -webkit-border-radius: 5px;
       border-radius: 5px;
     }
-
     input[type=text]:focus {
       border-color: #333;
     }
-
     input[type=submit] {
       padding: 5px 10px;
       background: #555555;
@@ -53,29 +49,24 @@
       color: #124191;
       letter-spacing: -0.03em;
     }
-
     body {
       font-family: "Lucida Grande", Tahoma, sans-serif;
       color: rgb(102, 102, 102);
       font-size: 80%;
     }
-
     b,
     strong {
       color: black;
     }
-
     code {
       font-weight: 700;
       font-size: 120%;
     }
-
     .page{
       background-color: #333;
       width: 100%;
       height: 100%;
     }
-
     .res{
       text-align: center;
       margin-left: 20%;
@@ -84,10 +75,18 @@
       bottom : 100px;
         
     }
-
     .output{
       color:#8a8d83;
     }
+    .mainselection {
+   overflow:hidden;
+   width:350px;
+   -moz-border-radius: 9px 9px 9px 9px;
+   -webkit-border-radius: 9px 9px 9px 9px;
+   border-radius: 9px 9px 9px 9px;
+   box-shadow: 1px 1px 11px #330033;
+   background: #8a8d83 url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+  }
   </style>
 </head>
 
@@ -103,7 +102,7 @@
             <tr>
               <td>
                 <label style="font-size:30px">Select Time: </label>
-                <select name="Time" width="500px">
+                <select name="Time" class="mainselection" width="500px">
                 {% for x in hour_list %}
                 <option value="{{ x }}" {% if loop.first %} SELECTED{% endif %}>{{ x }}</option>
                 {% endfor %}
@@ -132,8 +131,6 @@
       map.addObject(marker);
       $("#Latitude").val(coord.lat.toFixed(3))
       $("#Longitude").val(coord.lng.toFixed(3))
-
-
       $.get('/results?latitude='+coord.lng.toFixed(3)+'&longitude='+coord.lng.toFixed(3)+'&hour='+$("select").val(), function(data){
         $("#result").empty();
         $("#result").append( "<p>Crime Type &nbsp:"+data.cat+"</p>");
