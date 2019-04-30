@@ -88,6 +88,16 @@
     .output{
       color:#8a8d83;
     }
+
+    .mainselection {
+   overflow:hidden;
+   width:350px;
+   -moz-border-radius: 9px 9px 9px 9px;
+   -webkit-border-radius: 9px 9px 9px 9px;
+   border-radius: 9px 9px 9px 9px;
+   box-shadow: 1px 1px 11px #330033;
+   background: #8a8d83 url("http://i62.tinypic.com/15xvbd5.png") no-repeat scroll 319px center;
+  }
   </style>
 </head>
 
@@ -103,7 +113,7 @@
             <tr>
               <td>
                 <label style="font-size:30px">Select Time: </label>
-                <select name="Time" width="500px">
+                <select name="Time" class="mainselection" width="500px">
                 {% for x in hour_list %}
                 <option value="{{ x }}" {% if loop.first %} SELECTED{% endif %}>{{ x }}</option>
                 {% endfor %}
