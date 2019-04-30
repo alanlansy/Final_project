@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Encode+Sans|Encode+Sans+Semi+Condensed|Open+Sans:400,700"
+    rel="stylesheet">
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+  <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <style>
+    h2 {
+      text-align: center;
+      font-family: 'Open Sans: 400,700', sans-serif;
+      color: #5F9EA0;
+      font-size: 30px;
+    }
+
+    table {
+      color: DimGrey;
+      font-family: 'Encode Sans', sans-serif;
+      font-size: 16px;
+    }
+
+    input[type=text] {
+      padding: 5px;
+      border: 2px solid #ccc;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+
+    input[type=text]:focus {
+      border-color: #333;
+    }
+
+    input[type=submit] {
+      padding: 5px 10px;
+      background: #555555;
+      border: 0 none;
+      cursor: pointer;
+      color: white;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+    }
+  </style>
+  <style>
+    code,
+    h1,
+    h2,
+    h3 {
+      color: #124191;
+      letter-spacing: -0.03em;
+    }
+
+    body {
+      font-family: "Lucida Grande", Tahoma, sans-serif;
+      color: rgb(102, 102, 102);
+      font-size: 80%;
+    }
+
+    b,
+    strong {
+      color: black;
+    }
+
+    code {
+      font-weight: 700;
+      font-size: 120%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="map" style="width: 600px; height: 400px; background: grey"></div>
+  <h3 color>
+    <form action="/results" method="POST">
+      <table>
+
+        <tr>
+          <td>
+            <label>Select Time: </label>
+            <select name="Time" width="300px">
+              {% for x in hour_list %}
+              <option value="{{ x }}" {% if loop.first %} SELECTED{% endif %}>{{ x }}</option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+      </table>
+          <div id="result"></div>
+        </table>
+    </form>
+  </h3>
+
+
+</body>
+
+<script>
+  function setUpClickListener(map) {
+    // Attach an event listener to map display
+    // obtain the coordinates and display in an alert box.
+    map.addEventListener('tap', function (evt) {
+      var coord = map.screenToGeo(evt.currentPointer.viewportX,
+        evt.currentPointer.viewportY);
+      map.removeObjects(map.getObjects())
+      var marker = new H.map.Marker({ lat: coord.lat.toFixed(4), lng: coord.lng.toFixed(4) });
+      marker.draggable = true;
+      map.addObject(marker);
+      $("#Latitude").val(coord.lat.toFixed(3))
+      $("#Longitude").val(coord.lng.toFixed(3))
+
+
+      $.get('/results?latitude='+coord.lng.toFixed(3)+'&longitude='+coord.lng.toFixed(3)+'&hour='+$("select").val(), function(data){
+        $("#result").empty();
+        $("#result").append( "<p>Crime Type &nbsp:"+data.cat+"</p>");
+        $("#result").append( "<p>Probablity &nbsp:"+data.prob+"</p>");
+});
+      // alert('Clicked at ' + Math.abs(coord.lat.toFixed(4)) +
+      //   ((coord.lat > 0) ? 'N' : 'S') +
+      //   ' ' + Math.abs(coord.lng.toFixed(4)) +
+      //   ((coord.lng > 0) ? 'E' : 'W'));
+    });
+  }
+  /**
+   * Boilerplate map initialization code starts below:
+   */
+  //Step 1: initialize communication with the platform
+  var platform = new H.service.Platform({
+    app_id: 'DemoAppId01082013GAL',
+    app_code: 'AJKnXv84fjrb0KIHawS0Tg',
+    useCIT: true,
+    useHTTPS: true
+  });
+  var defaultLayers = platform.createDefaultLayers();
+  //Step 2: initialize a map
+  var map = new H.Map(document.getElementById('map'),
+    defaultLayers.normal.map, {
+      center: { lat: 37.773972, lng: -122.431297 },
+      zoom: 16
+    });
+  //Step 3: make the map interactive
+  // MapEvents enables the event system
+  // Behavior implements default interactions for pan/zoom (also on mobile touch environments)
+  var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+  setUpClickListener(map);
+  $('head').append('<link rel="stylesheet" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css" type="text/css" />');
+</script>
+
+</html>
