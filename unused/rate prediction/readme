@@ -1,0 +1,15 @@
+dependencies
+
+Python3
+
+
+sklearn
+numpy
+pandas
+matplotlib
+statsmodels
+
+
+
+#For ubuntu 18.04 install
+python3-tk 

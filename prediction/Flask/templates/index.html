@@ -63,7 +63,7 @@
       font-size: 120%;
     }
     .page{
-      background-color: #333;
+      background-color:#2d3035;
       width: 100%;
       height: 100%;
     }
@@ -95,14 +95,14 @@
 
   
 
-    <div id="map" style="width: 600px; height: 400px; background: #8a8d83; margin-left: auto; margin-right: auto"></div>
+    <div id="map" style="width: 1050px; height: 380px; background: #8a8d83; margin-left: auto; margin-right: auto"></div>
     <div class="res">
       <h3 color>
         <form action="/results" method="POST" >
           <table>
             <tr>
               <td>
-                <label style="font-size:30px">Select Time: </label>
+                <label style="font-size:15px">Select Time: </label>
                 <select name="Time" class="mainselection" width="500px">
                 {% for x in hour_list %}
                 <option value="{{ x }}" {% if loop.first %} SELECTED{% endif %}>{{ x }}</option>
