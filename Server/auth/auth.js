@@ -37,7 +37,6 @@ module.exports={
         user1.save(function (err) {
             if (err) throw err;
             console.log('user created');
-            req.session.user={'fname':req.body.fname,'lname':req.body.lname}
             res.json({ success: true});
         })
     },
