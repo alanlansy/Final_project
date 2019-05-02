@@ -1,16 +1,13 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var session = require('express-session');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 var config = require('./config');  //configration for the db 
 var user = require('./app/models/user');  //get user model
 var auth = require('./auth/auth.js');
 var graph = require('./analysis/graph.js');
-cookieParser = require('cookie-parser'),
-    cookieSession = require('cookie-session'),
-    app.use(morgan('dev'));   //log to console
+app.use(morgan('dev'));   //log to console
 app.disable('x-powered-by') //jsut remove x-powerd 
 mongoose.connect(config.database, { useNewUrlParser: true });  //connect to db
 
