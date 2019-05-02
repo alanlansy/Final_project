@@ -18,7 +18,7 @@
 	<link href="css/responsive.css" rel="stylesheet" type="text/css">
 	<link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
 	<link href="css/animate.css" rel="stylesheet" type="text/css">
-
+	
 	<script type="text/javascript" src="js/jquery.1.8.3.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 	<script type="text/javascript" src="js/jquery-scrolltofixed.js"></script>
@@ -135,17 +135,32 @@
 			<div class="footer-logo"><a href="#"><img src="img/Illuminati-PNG-Image.png" alt=""></a></div>
 			<span class="copyright"></span>
 			<div class="credits">
-				<!--
-          All the links in the footer should remain intact.
-          You can delete the links only if you purchased the pro version.
-          Licensing information: https://bootstrapmade.com/license/
-          Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Knight
-        -->
+			
 				Designed with <i class="fa fa-heart"> </i> </a>
 			</div>
 		</div>
 	</footer>
+	<!---model to show crime statistics-->
+	<!-- <div class="modal-content" id="topCrimesModal">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <table id="topCrimes">
+					<tr>
+						<th>Crime Type</th>
+						<th>Total</th>
+					</tr>
 
+				</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+		</div> -->
+		
+		
 
 	<script type="text/javascript">
 		$(document).ready(function(e) {
@@ -183,12 +198,6 @@
 				$('html, body').stop().animate({
 					scrollTop: $($anchor.attr('href')).offset().top - 102
 				}, 1500, 'easeInOutExpo');
-				/*
-				if you don't want to use the easing effects:
-				$('html, body').stop().animate({
-					scrollTop: $($anchor.attr('href')).offset().top
-				}, 1000);
-				*/
 				if ($(window).width() < 768) {
 					$('.main-nav').hide();
 				}

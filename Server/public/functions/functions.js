@@ -36,3 +36,21 @@ function login(uname,password,callback){
 function isLogedin(){
     return localStorage.getItem('login')
 }
+
+
+
+function getTopCrimes(callback){
+    var http = new XMLHttpRequest();
+    var params = ''
+    http.open('GET','/topcrimes',true);
+    http.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            
+            var response=JSON.parse(http.responseText);
+            callback(response);
+        }
+    }
+    http.send(params);
+
+}

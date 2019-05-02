@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var config = require('./config');  //configration for the db 
 var user = require('./app/models/user');  //get user model
 var auth = require('./auth/auth.js');
-var path = require('path');
+var graph = require('./analysis/graph.js');
 cookieParser = require('cookie-parser'),
     cookieSession = require('cookie-session'),
     app.use(morgan('dev'));   //log to console
@@ -55,6 +55,13 @@ app.get('/register', function (req, res) {
 
 });
 
+app.get('/topcrimes',function(req,res){
+    graph.topCrimes(req,res)
+})
+
+app.get('/topspots',function(req,res){
+    graph.topSpots(req,res)
+})
 
 //post requests
 app.post('/createUser', function (req, res) {
