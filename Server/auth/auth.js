@@ -20,7 +20,6 @@ mongoose.connect(config.database, { useNewUrlParser: true });  //connect to db
 app.set('secret', config.secret);    //set the secret variable for token genration
 
 app.use(bodyParser.urlencoded({ extended: false }));  //get the parameters from the post
-app.use(bodyParser.json());
 
 app.use(morgan('dev'));   //log to console
 

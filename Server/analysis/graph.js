@@ -6,7 +6,7 @@ const driver = new neo4j.driver("bolt://graphdb.ga:7687", neo4j.auth.basic("neo4
 const session = driver.session();
 var morgan = require('morgan');
 app.use(morgan('dev'));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 module.exports = {
     topCrimes: function (req, res) {
         const cypher = 'MATCH (c:Crime) RETURN c.type AS crime_type, count(c) AS total ORDER BY count(c) DESC'
@@ -33,8 +33,6 @@ module.exports = {
         session.run(cypher)
             .then(result => {
 
-                console.log('Crime Type \t Number')
-
                 res.json(result)
             })
             .catch(e => {
@@ -42,5 +40,20 @@ module.exports = {
             })
 
 
+    },
+    crimeNear: function(req,res){
+        var address=req.body.address
+        var distance = req.body.distance
+        var postcode=req.body.postcode
+        const query="MATCH (l:Location {address: '"+address+"', postcode: '"+postcode+"'}) WITH point(l) AS corrie MATCH (x:Location)-[:HAS_POSTCODE]->(p:PostCode), (x)<-[:OCCURRED_AT]-(c:Crime) WITH x, p, c, distance(point(x), corrie) AS distance WHERE distance < "+distance+" RETURN x.address AS address, p.code AS postcode, count(c) AS crime_total, collect(distinct(c.type)) AS crime_type, distance ORDER BY distance LIMIT 10"
+        console.log(query)
+        session.run(query)
+        .then(result => {
+
+            res.json(result)
+        })
+        .catch(e => {
+            console.log(e);
+        })
     }
 }

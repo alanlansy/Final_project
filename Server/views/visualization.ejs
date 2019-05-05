@@ -27,12 +27,18 @@
   <script src="functions/preventback.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
 
   <style>
     html {
       visibility: hidden;
     }
 
+    #viz {
+                width: 1024px;
+                height: 650px;
+                font: 10pt arial;
+            }
     table,
     th,
     td {
@@ -52,12 +58,11 @@
         <div class="navbar-header">
           <!-- Navbar Header-->
           <a href="#" class="navbar-brand">
-            <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary"></strong><strong>Crime
+            <div id="text1" class="brand-text brand-big visible text-uppercase"><strong class="text-primary"></strong><strong>Crime
                 Analyser</strong></div>
-            <div class="brand-text brand-sm"><strong class="text-primary"></strong><strong>CA</strong></div>
+            <div id="text2" class="brand-text brand-sm"><strong class="text-primary"></strong><strong>CA</strong></div>
           </a>
           <!-- Sidebar Toggle Btn-->
-          <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
         </div>
         <div class="right-menu list-inline no-margin-bottom">
           <div class="list-inline-item logout">
@@ -86,45 +91,34 @@
 
       </ul>
     </nav>
-    <div class="page-content">
+    <div id="page" class="page-content">
       <!-- Page Header-->
       <div class="page-header no-margin-bottom">
         <div class="container-fluid">
-          <h2 class="h5 no-margin-bottom">Crime Analysis</h2>
+          <h2 class="h5 no-margin-bottom">Query Visualization</h2>
         </div>
       </div>
-      <!-- Breadcrumb-->
-      <div class="container-fluid">
-        <div class="breadcrumb">
-
-        </div>
-      </div>
+      
       <section class="no-padding-top">
         <div class="container-fluid">
-               
-               <div class="col-lg-6 ">
-                  <div class="block "><a href="#topCrimes" rel="modal:open"><h2 class="txt">Show Top crimes</h2></a>
-                    </div> 
-                  </div>
-                  <div class="col-lg-6 ">
-                      <div class="block "><a href="#topSpots" rel="modal:open"> <h2 class="txt">Show Top crime spots</h2></a>
-                        </div> 
-                      </div>
-                      <div class="col-lg-6 ">
-                          <div class="block "><a href="#crimesNear" rel="modal:open"><h2 class="txt">Show Top crime spots near by</h2></a>
-                            </div> 
-                          </div>
-            
-                          <div class="col-lg-6 ">
-                              <div class="block "><a href="/visualization"><h2 class="txt">Query Visualization</h2></a>
-                                </div> 
-                              </div>
-            
-  
-          </div>
-          <div class="row">
 
+          <div class="col-lg-20" style="padding-top:0.75%">                           
+            <div class="block">
+              <div class="block-body">
+                <form class="form-inline" id="query">
+                  
+                    <input id="q"style="width:90%" type="text" placeholder="Enter Query" class="mr-sm-3 form-control">
+                  
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </form>
+              </div>
+            </div>
           </div>
+
+
+          <div id="viz"></div>
+
+            
         </div>
       </section>
     </div>
@@ -138,70 +132,10 @@
   </div>
 
 
-  <!--Top crimes list-->
-  <div id="topCrimes" class="modal" style="height:70%;width:50%">
-    <table id="topCrimes">
-      <tr>
-        <th>Crime Type</th>
-        <th>Total</th>
-      </tr>
 
 
-    </table>
-
-  </div>
-  <script>
-      getTopCrimes(function (data) {
-        for (i = 0; i <= 10; i++) {
-          var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1]['low'] + "</td></tr>"
-          $("#topCrimes").append(markup)
-        }
-  
-      })
-  
-    </script>
-
-
-  <!--Top Hotspots-->
-  <div id="topSpots" class="modal" style="height:70%;width:50%">
-      <table id="topSpots">
-        <tr>
-          <th>Address</th>
-          <th>Postcode</th>
-        </tr>
-
-      </table>
-  
-    </div>
-    <script>
-        getTopSpots(function (data) {
-          for (i = 0; i <=9; i++) {
-            var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] +"</td></tr>"
-            $("#topSpots").append(markup)
-          }
-    
-        })
-    
-      </script>
-<!---Crimes near-->
-<div id="crimesNear" class="modal" style="height:auto;width:auto;margin-top:5%">
-   <form id="crimenear">
-      <input id="addr" type="text" placeholder="Address">
-      <input id="postcode" type="text" placeholder="Postcode">
-      <input id="distance" type="number" placeholder="Distance">
-      <input type="submit">
-   </form>
-    <table id="crimeneartable" style="visibility:hidden">
-      <tr>
-        <th>Address</th>
-        <th>Postcode</th>
-        <th>Crime Type</th>
-        <th>Distance</th>
-
-      </tr>
-    </table>
-
-  </div>
+ 
+ 
   <!-- JavaScript files-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/popper.js/umd/popper.min.js"> </script>
@@ -214,24 +148,48 @@
   <script>
     $("#name").append(localStorage.getItem('fname'))
   </script>
-  
+    <script type="text/javascript">
+
+      var viz;
+
+     
+      function draw(q) {
+          var config = {
+              container_id: "viz",
+              server_url: "bolt://graphdb.ga:7687",
+              server_user: "neo4j",
+              server_password: "password",
+              labels: {
+                  
+              },
+              relationships: {
+                  
+              },
+              initial_cypher: q
+          };
+
+          viz = new NeoVis.default(config);
+          viz.render();
+      }
+     
+  </script> 
+
 <script>
-    $("#crimenear").submit(function(e){
-      e.preventDefault();
-      $("#crimenear").hide()
-      getCrimesNear($("#addr").val(),$("#postcode").val(),$("#distance").val(),function(data){
-        for (i = 0; i <=9; i++) {
-            var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] +"</td>"+ "<td >" + data.records[i]['_fields'][3] +"</td>"+ "<td >" + data.records[i]['_fields'][4] +"</td></tr>"
-            $("#crimeneartable").append(markup)
-          }
+      $("#query").submit(function(e){
+        e.preventDefault();
+        draw($("#q").val())
+        // $('#sidebar').toggleClass('shrinked')
+        $("#sidebar").attr('class', 'shrinked');
+        $("#page").attr('class', 'page-content active');
+        $("#text1").attr('class', ' brand-text brand-big text-uppercase');
+        $("#text2").attr('class', 'brand-text brand-sm visible');
+        window.scrollTo(0,140);
 
-        $("#crimeneartable").css("visibility", "visible")
-      })
 
-      
-        
-   });
-  </script>
+     });
+    </script>
+  
+
 </body>
 
 </html>

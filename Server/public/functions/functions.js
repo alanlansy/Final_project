@@ -54,3 +54,37 @@ function getTopCrimes(callback){
     http.send(params);
 
 }
+
+
+function getTopSpots(callback){
+    var http = new XMLHttpRequest();
+    var params = ''
+    http.open('GET','/topspots',true);
+    http.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var response=JSON.parse(http.responseText)
+            callback(response);
+            
+        }
+    }
+    http.send(params);
+
+}
+
+
+function getCrimesNear(address,postcode,distance,callback){
+    var http = new XMLHttpRequest();
+    var params = 'address='+address+'&postcode='+postcode+'&distance='+distance
+    http.open('POST','/crimenear',true);
+    http.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var response=JSON.parse(http.responseText)
+            callback(response);
+            
+        }
+    }
+    http.send(params);
+
+}

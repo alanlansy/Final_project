@@ -60,6 +60,12 @@ app.get('/topspots',function(req,res){
     graph.topSpots(req,res)
 })
 
+app.get('/visualization',function(req,res){
+    app.use(express.static(__dirname + '/public'));
+   res.render('visualization.ejs')
+})
+
+
 //post requests
 app.post('/createUser', function (req, res) {
     console.log(req.body.lname)
@@ -77,6 +83,11 @@ app.post('/auth', function (req, res) {
    });
   
 });
+
+app.post('/crimenear',function(req,res){
+    graph.crimeNear(req,res)
+})
+
 
 
 
