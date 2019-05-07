@@ -22,11 +22,15 @@
   <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
   <!-- Custom stylesheet - for your changes-->
   <link rel="stylesheet" href="css/custom.css">
+  <link rel="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/fontawesome.min.css">
+
   <!-- Favicon-->
   <link rel="shortcut icon" href="img/Illuminati-PNG-Image.png">
-  <script src="functions/preventback.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <link href="https://cdn.datatables.net/1.10.18/css/dataTables.jqueryui.min.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.18/js/dataTables.jqueryui.min.js"></script>
 
   <style>
     html {
@@ -101,40 +105,78 @@
       </div>
       <section class="no-padding-top">
         <div class="container-fluid">
-               
-               <div class="col-lg-6 ">
-                  <div class="block "><a href="#topCrimes" rel="modal:open"><h2 class="txt">Show Top crimes</h2></a>
-                    </div> 
-                  </div>
-                  <div class="col-lg-6 ">
-                      <div class="block "><a href="#topSpots" rel="modal:open"> <h2 class="txt">Show Top crime spots</h2></a>
-                        </div> 
-                      </div>
-                      <div class="col-lg-6 ">
-                          <div class="block "><a href="#crimesNear" rel="modal:open"><h2 class="txt">Show Top crime spots near by</h2></a>
-                            </div> 
-                          </div>
-            
-                          <div class="col-lg-6 ">
-                              <div class="block "><a href="/visualization"><h2 class="txt">Query Visualization</h2></a>
-                                </div> 
-                              </div>
-            
-  
+          <div class="row">
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#topCrimes" rel="modal:open">
+                  <h2 class="txt">Show Top crimes</h2>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#topSpots" rel="modal:open">
+                  <h2 class="txt">Show Top crime spots</h2>
+                </a>
+              </div>
+            </div>
           </div>
           <div class="row">
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#crimesNear" rel="modal:open">
+                  <h2 class="txt">Show Top crime spots near by</h2>
+                </a>
+              </div>
+            </div>
 
+            <div class="col-lg-6 ">
+              <div class="block "><a href="/visualization">
+                  <h2 class="txt">Query Visualization</h2>
+                </a>
+              </div>
+            </div>
           </div>
+          <div class="row">
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#trianglecount" rel="modal:open">
+                  <h2 class="txt">Triangle count</h2>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#connections" rel="modal:open">
+                  <h2 class="txt">Person's connections</h2>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-6 ">
+                <div class="block "><a href="#trianglecount" rel="modal:open">
+                    <h2 class="txt">Betweeness Centrality</h2>
+                  </a>
+                </div>
+              </div>
+              <div class="col-lg-6 ">
+                <div class="block "><a href="#connections" rel="modal:open">
+                    <h2 class="txt"></h2>
+                  </a>
+                </div>
+              </div>
+            </div>
+
         </div>
-      </section>
+        
+
+        </div>
     </div>
-    <footer class="footer">
-      <div class="footer__block block no-margin-bottom">
-        <div class="container-fluid text-center">
-          <p class="no-margin-bottom">2019 &copy; Crime Analyser</a>.</p>
-        </div>
+    </section>
+  </div>
+  <footer class="footer">
+    <div class="footer__block block no-margin-bottom">
+      <div class="container-fluid text-center">
+        <p class="no-margin-bottom">2019 &copy; Crime Analyser</a>.</p>
       </div>
-    </footer>
+    </div>
+  </footer>
   </div>
 
 
@@ -151,46 +193,46 @@
 
   </div>
   <script>
-      getTopCrimes(function (data) {
-        for (i = 0; i <= 10; i++) {
-          var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1]['low'] + "</td></tr>"
-          $("#topCrimes").append(markup)
-        }
-  
-      })
-  
-    </script>
+    getTopCrimes(function (data) {
+      for (i = 0; i <= 10; i++) {
+        var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1]['low'] + "</td></tr>"
+        $("#topCrimes").append(markup)
+      }
+
+    })
+
+  </script>
 
 
   <!--Top Hotspots-->
   <div id="topSpots" class="modal" style="height:70%;width:50%">
-      <table id="topSpots">
-        <tr>
-          <th>Address</th>
-          <th>Postcode</th>
-        </tr>
+    <table id="topSpots">
+      <tr>
+        <th>Address</th>
+        <th>Postcode</th>
+      </tr>
 
-      </table>
-  
-    </div>
-    <script>
-        getTopSpots(function (data) {
-          for (i = 0; i <=9; i++) {
-            var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] +"</td></tr>"
-            $("#topSpots").append(markup)
-          }
-    
-        })
-    
-      </script>
-<!---Crimes near-->
-<div id="crimesNear" class="modal" style="height:auto;width:auto;margin-top:5%">
-   <form id="crimenear">
+    </table>
+
+  </div>
+  <script>
+    getTopSpots(function (data) {
+      for (i = 0; i <= 9; i++) {
+        var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td></tr>"
+        $("#topSpots").append(markup)
+      }
+
+    })
+
+  </script>
+  <!---Crimes near-->
+  <div id="crimesNear" class="modal" style="height:auto;width:auto;margin-top:5%">
+    <form id="crimenear">
       <input id="addr" type="text" placeholder="Address">
       <input id="postcode" type="text" placeholder="Postcode">
       <input id="distance" type="number" placeholder="Distance">
       <input type="submit">
-   </form>
+    </form>
     <table id="crimeneartable" style="visibility:hidden">
       <tr>
         <th>Address</th>
@@ -202,6 +244,80 @@
     </table>
 
   </div>
+
+  <script>
+    $("#crimenear").submit(function (e) {
+      e.preventDefault();
+      $("#crimenear").hide()
+      getCrimesNear($("#addr").val(), $("#postcode").val(), $("#distance").val(), function (data) {
+        for (i = 0; i <= 9; i++) {
+          var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[i]['_fields'][3] + "</td>" + "<td >" + data.records[i]['_fields'][4] + "</td></tr>"
+          $("#crimeneartable").append(markup)
+        }
+
+        $("#crimeneartable").css("visibility", "visible")
+      })
+
+
+
+    });
+  </script>
+
+
+  <!--persons connections-->
+  <div id="connections" class="modal" style="height:auto;width:auto;margin-top:5%">
+    <form id="people">
+      <input id="rnhs" type="text" placeholder="Person's id">
+      <input type="submit">
+    </form>
+
+  </div>
+
+  <script>
+    $("#people").submit(function (e) {
+      e.preventDefault();
+
+      window.location.href = "/connections?q=" + $("#rnhs").val()
+
+
+
+    });
+  </script>
+
+
+  <!--Triangle count-->
+  <div id="trianglecount" class="modal" style="height:auto;width:auto;margin-top:5%">
+    <table id="triangle" class="display">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </div>
+  <script>
+
+    getTriangleCount(function (data) {
+      for (i = 0; i <= 9; i++) {
+        var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[0]['_fields'][2]['low'] + "<td ><button onclick=" + "get('" + data.records[i]['_fields'][1] + "')>Get Graph</button></td></tr>"
+        $("#triangle").append(markup)
+      }
+
+    })
+
+
+    function get(dat) {
+      window.location.href = "/showtriangle?q=" + dat
+    }
+
+
+  </script>
   <!-- JavaScript files-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/popper.js/umd/popper.min.js"> </script>
@@ -214,24 +330,8 @@
   <script>
     $("#name").append(localStorage.getItem('fname'))
   </script>
-  
-<script>
-    $("#crimenear").submit(function(e){
-      e.preventDefault();
-      $("#crimenear").hide()
-      getCrimesNear($("#addr").val(),$("#postcode").val(),$("#distance").val(),function(data){
-        for (i = 0; i <=9; i++) {
-            var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] +"</td>"+ "<td >" + data.records[i]['_fields'][3] +"</td>"+ "<td >" + data.records[i]['_fields'][4] +"</td></tr>"
-            $("#crimeneartable").append(markup)
-          }
 
-        $("#crimeneartable").css("visibility", "visible")
-      })
 
-      
-        
-   });
-  </script>
 </body>
 
 </html>

@@ -55,5 +55,17 @@ module.exports = {
         .catch(e => {
             console.log(e);
         })
+    },
+    triangleCount: function(req,res){
+        const query="CALL algo.triangleCount.stream('MATCH (p:Person)-[:PARTY_TO]->(c:Crime) RETURN id(p) AS id', 'MATCH (p1:Person)-[:KNOWS]-(p2:Person) RETURN id(p1) AS source, id(p2) AS target', {concurrency:4, graph:'cypher'}) YIELD nodeId, triangles MATCH (p:Person) WHERE ID(p) = nodeId AND  triangles > 0 RETURN p.name+' '+ p.surname as name , p.nhs_no AS id, triangles ORDER BY triangles DESC  LIMIT 10"
+        console.log(query)
+        session.run(query)
+        .then(result => {
+
+            res.json(result)
+        })
+        .catch(e => {
+            console.log(e);
+        })
     }
 }

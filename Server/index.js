@@ -65,6 +65,17 @@ app.get('/visualization',function(req,res){
    res.render('visualization.ejs')
 })
 
+app.get('/trianglecount',function(req,res){
+    graph.triangleCount(req,res)
+})
+app.get('/showtriangle',function(req,res){
+    app.use(express.static(__dirname + '/public'));
+    res.render('trianglecount.ejs')
+})
+app.get('/connections',function(req,res){
+    app.use(express.static(__dirname + '/public'));
+    res.render('connections.ejs')
+})
 
 //post requests
 app.post('/createUser', function (req, res) {
@@ -87,6 +98,7 @@ app.post('/auth', function (req, res) {
 app.post('/crimenear',function(req,res){
     graph.crimeNear(req,res)
 })
+
 
 
 

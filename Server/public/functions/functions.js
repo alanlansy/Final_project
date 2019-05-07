@@ -88,3 +88,19 @@ function getCrimesNear(address,postcode,distance,callback){
     http.send(params);
 
 }
+
+function getTriangleCount(callback){
+    var http = new XMLHttpRequest();
+    var params = ''
+    http.open('GET','/trianglecount',true);
+    http.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var response=JSON.parse(http.responseText)
+            callback(response);
+            
+        }
+    }
+    http.send(params);
+
+}

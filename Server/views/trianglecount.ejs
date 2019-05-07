@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="css/custom.css">
   <!-- Favicon-->
   <link rel="shortcut icon" href="img/Illuminati-PNG-Image.png">
+  <script src="functions/preventback.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
   <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
@@ -94,7 +95,7 @@
       <!-- Page Header-->
       <div class="page-header no-margin-bottom">
         <div class="container-fluid">
-          <h2 class="h5 no-margin-bottom">Query Visualization</h2>
+          <h2 class="h5 no-margin-bottom">Triangle count</h2>
         </div>
       </div>
       
@@ -104,11 +105,11 @@
           <div class="col-lg-20" style="padding-top:0.75%">                           
             <div class="block">
               <div class="block-body">
-                <form class="form-inline" id="query">
+                <form class="form-inline" id="quer">
                   
-                    <input id="q"style="width:90%" type="text" placeholder="Enter Query" class="mr-sm-3 form-control">
+                    <input id="q"style="width:100%" type="text" placeholder="Enter Query" class="mr-sm-3 form-control">
                   
-                    <input type="submit" value="Submit" class="btn btn-primary">
+                    
                 </form>
               </div>
             </div>
@@ -120,6 +121,61 @@
             
         </div>
       </section>
+    </script>
+    <script type="text/javascript">
+
+      var viz;
+
+     
+      function draw(q) {
+          var config = {
+              container_id: "viz",
+              server_url: "bolt://graphdb.ga:7687",
+              server_user: "neo4j",
+              server_password: "password",
+              labels: {
+                "Person": {
+                        "caption": "name",
+                        "font-size":"1"
+                    },
+                    "Crime": {
+                        "caption": "type",
+                        "font-size":"1"
+                    }
+                  
+              },
+              relationships: {
+                "KNOWS": {
+                        "thickness": "2",
+                        "caption": true
+                    },
+                    "PARTY_TO": {
+                        "thickness": "2",
+                        "caption": true
+                    }
+                  
+              },
+              initial_cypher: q
+          };
+
+          viz = new NeoVis.default(config);
+          viz.render();
+      }
+     
+  </script> 
+  <script>
+    var url = new URL(window.location.href);
+    var c = url.searchParams.get("q");
+    var query="MATCH (p1:Person {nhs_no: '"+c+"'})-[k1:KNOWS]-(p2)-[k2:KNOWS]-(p3)-[k3:KNOWS]-(p1) WITH * MATCH (person)-[pt:PARTY_TO]->(crime) WHERE person IN[p1, p2, p3] RETURN *";
+    $("#q").val(query)
+    draw($("#q").val())
+    $("#sidebar").attr('class', 'shrinked');
+        $("#page").attr('class', 'page-content active');
+        $("#text1").attr('class', ' brand-text brand-big text-uppercase');
+        $("#text2").attr('class', 'brand-text brand-sm visible');
+        window.scrollTo(0,140);
+
+  </script>
     </div>
     <footer class="footer">
       <div class="footer__block block no-margin-bottom">
@@ -146,46 +202,9 @@
 
   <script>
     $("#name").append(localStorage.getItem('fname'))
-  </script>
-    <script type="text/javascript">
-
-      var viz;
-
-     
-      function draw(q) {
-          var config = {
-              container_id: "viz",
-              server_url: "bolt://graphdb.ga:7687",
-              server_user: "neo4j",
-              server_password: "password",
-              labels: {
-                  
-              },
-              relationships: {
-                  
-              },
-              initial_cypher: q
-          };
-
-          viz = new NeoVis.default(config);
-          viz.render();
-      }
-     
-  </script> 
-
-<script>
-      $("#query").submit(function(e){
-        e.preventDefault();
-        draw($("#q").val())
-        $("#sidebar").attr('class', 'shrinked');
-        $("#page").attr('class', 'page-content active');
-        $("#text1").attr('class', ' brand-text brand-big text-uppercase');
-        $("#text2").attr('class', 'brand-text brand-sm visible');
-        window.scrollTo(0,140);
+ </script>
 
 
-     });
-    </script>
   
 
 </body>
