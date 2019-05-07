@@ -181,8 +181,8 @@
 
 
   <!--Top crimes list-->
-  <div id="topCrimes" class="modal" style="height:70%;width:50%">
-    <table id="topCrimes">
+  <div id="topCrimes" class="modal" style="height:auto;width:auto;margin-top:5%;background: #2d3035">
+    <table id="topCrimes" class="table table-dark table-striped">
       <thead>
         <tr>
           <th>Crime Type</th>
@@ -206,8 +206,8 @@
 
 
   <!--Top Hotspots-->
-  <div id="topSpots" class="modal" style="height:70%;width:50%">
-    <table id="topSpots">
+  <div id="topSpots" class="modal" style="height:auto;width:auto;margin-top:5%;background:#2d3035">
+    <table id="topSpots" class="display table table-dark table-striped">
       <thead>
         <tr>
           <th>Address</th>
@@ -228,14 +228,15 @@
 
   </script>
   <!---Crimes near-->
-  <div id="crimesNear" class="modal" style="height:auto;width:auto;margin-top:5%">
+  <div id="crimesNear" class="modal" style="height:auto;width:auto;margin-top:5%;background: #2d3035">
     <form id="crimenear">
-      <input id="addr" type="text" placeholder="Address">
-      <input id="postcode" type="text" placeholder="Postcode">
-      <input id="distance" type="number" placeholder="Distance">
-      <input type="submit">
+      <div class="form-group"><input id="addr" class="form-control" type="text" placeholder="Address"></div>
+      <div class="form-group"><input id="postcode"class="form-control" type="text" placeholder="Postcode"></div>
+      <div class="form-group"><input id="distance" class="form-control" type="number" placeholder="Distance"></div>
+      
+      <input  class="btn btn-primary" type="submit">
     </form>
-    <table id="crimeneartable" style="visibility:hidden">
+    <table id="crimeneartable" style="visibility:hidden" class="table table-dark table-striped">
       <thead>
         <tr>
           <th>Address</th>
@@ -269,10 +270,10 @@
 
 
   <!--persons connections-->
-  <div id="connections" class="modal" style="height:auto;width:auto;margin-top:5%">
-    <form id="people">
-      <input id="rnhs" type="text" placeholder="Person's id">
-      <input type="submit">
+  <div id="connections" class="modal" style="height:auto;width:auto;margin-top:5%;background: #2d3035">
+    <form id="people" class="form-inline">
+      <input id="rnhs" class="mr-sm-3 form-control" type="text" placeholder="Person's id">
+      <input class="btn btn-primary" type="submit">
     </form>
 
   </div>
@@ -290,8 +291,8 @@
 
 
   <!--Triangle count-->
-  <div id="trianglecount" class="modal" style="height:auto;width:auto;margin-top:5%">
-    <table id="triangle" class="display">
+  <div id="trianglecount" class="modal" style="height:auto;width:auto;margin-top:5%;background: #2d3035">
+    <table id="triangle" class="display table table-dark table-striped">
       <thead>
         <tr>
           <th>Name</th>
@@ -323,8 +324,8 @@
   </script>
 
   <!--Betweeness centrality-->
-  <div id="betweenness" class="modal" style="height:auto;width:auto;margin-top:5%">
-    <table id="betweentable" class="display">
+  <div id="betweenness" class="modal" style="height:auto;width:auto;margin-top:5%;background: #2d3035">
+    <table id="betweentable" class="display table table-dark table-striped">
       <thead>
         <tr>
           <th>Name</th>
