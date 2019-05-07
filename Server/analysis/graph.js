@@ -67,5 +67,30 @@ module.exports = {
         .catch(e => {
             console.log(e);
         })
+    },
+    between: function(rq,res){
+        const query="CALL algo.betweenness.stream('Person', 'KNOWS', {direction: 'both'}) YIELD nodeId, centrality MATCH (p:Person) WHERE ID(p) = nodeId RETURN p.name+' '+ p.surname as name , p.nhs_no AS id, toInt(centrality) AS score ORDER BY centrality DESC LIMIT 10"
+        console.log(query)
+        session.run(query)
+        .then(result => {
+
+            res.json(result)
+        })
+        .catch(e => {
+            console.log(e);
+        })
+
+    },
+    friend: function(req,res){
+        const query="MATCH (p:Person)-[:KNOWS*1..2]-(friend)-[:PARTY_TO]->(:Crime) WHERE NOT (p:Person)-[:PARTY_TO]->(:Crime) RETURN p.name+' '+ p.surname as name, p.nhs_no AS id, count(distinct friend) AS dangerousFriends ORDER BY dangerousFriends DESC LIMIT 5"
+        console.log(query)
+        session.run(query)
+        .then(result => {
+
+            res.json(result)
+        })
+        .catch(e => {
+            console.log(e);
+        })
     }
 }

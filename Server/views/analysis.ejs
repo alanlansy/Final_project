@@ -150,14 +150,14 @@
           </div>
           <div class="row">
               <div class="col-lg-6 ">
-                <div class="block "><a href="#trianglecount" rel="modal:open">
+                <div class="block "><a href="#betweenness" rel="modal:open">
                     <h2 class="txt">Betweeness Centrality</h2>
                   </a>
                 </div>
               </div>
               <div class="col-lg-6 ">
-                <div class="block "><a href="#connections" rel="modal:open">
-                    <h2 class="txt"></h2>
+                <div class="block "><a href="#friend" rel="modal:open">
+                    <h2 class="txt">Friend circle Analysis</h2>
                   </a>
                 </div>
               </div>
@@ -304,8 +304,8 @@
   <script>
 
     getTriangleCount(function (data) {
-      for (i = 0; i <= 9; i++) {
-        var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[0]['_fields'][2]['low'] + "<td ><button onclick=" + "get('" + data.records[i]['_fields'][1] + "')>Get Graph</button></td></tr>"
+      for (i = 0; i <= 6; i++) {
+        var markup = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[i]['_fields'][2]['low'] + "<td ><button onclick=" + "get('" + data.records[i]['_fields'][1] + "')>Get Graph</button></td></tr>"
         $("#triangle").append(markup)
       }
 
@@ -316,8 +316,81 @@
       window.location.href = "/showtriangle?q=" + dat
     }
 
+  </script>
+
+  <!--Betweeness centrality-->
+  <div id="betweenness" class="modal" style="height:auto;width:auto;margin-top:5%">
+      <table id="betweentable" class="display">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+  
+        </tbody>
+      </table>
+  
+    </div>
+    <script>
+  
+      getBetween(function (data) {
+        for (i = 0; i <= 9; i++) {
+          var markup1 = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[i]['_fields'][2]['low'] + "<td ><button onclick=" + "get1('" + data.records[i]['_fields'][1] + "')>Get Graph</button></td></tr>"
+          $("#betweentable").append(markup1)
+        }
+  
+      })
+  
+  
+      function get1(dat) {
+        window.location.href = "/showbetween?q=" + dat
+      }
+  
+    </script>
+
+
+
+<!--friend circle analysis-->
+
+
+<div id="friend" class="modal" style="height:auto;width:auto;margin-top:5%">
+    <table id="friendtable" class="display">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </div>
+  <script>
+
+    getFriend(function (data) {
+      for (i = 0; i <= 9; i++) {
+        var markup2 = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[i]['_fields'][2]['low'] + "<td ><button onclick=" + "get1('" + data.records[i]['_fields'][1] + "')>Get Friend circle</button></td></tr>"
+        $("#friendtable").append(markup2)
+      }
+
+    })
+
+
+    function get1(dat) {
+      window.location.href = "/showfriend?q=" + dat
+    }
 
   </script>
+
+
+
+
   <!-- JavaScript files-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/popper.js/umd/popper.min.js"> </script>

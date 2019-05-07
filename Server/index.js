@@ -55,6 +55,14 @@ app.get('/register', function (req, res) {
 app.get('/topcrimes',function(req,res){
     graph.topCrimes(req,res)
 })
+app.get('/friend',function(req,res){
+    graph.friend(req,res)
+})
+
+
+app.get('/between',function(req,res){
+    graph.between(req,res)
+})
 
 app.get('/topspots',function(req,res){
     graph.topSpots(req,res)
@@ -76,12 +84,21 @@ app.get('/connections',function(req,res){
     app.use(express.static(__dirname + '/public'));
     res.render('connections.ejs')
 })
+app.get('/showbetween',function(req,res){
+    app.use(express.static(__dirname + '/public'));
+    res.render('beetween.ejs')
+})
 
+app.get('/showfriend',function(req,res){
+    app.use(express.static(__dirname + '/public'));
+    res.render('friend.ejs')
+})
 //post requests
 app.post('/createUser', function (req, res) {
     console.log(req.body.lname)
     auth.create(req, res);
 });
+
 
 app.post('/auth', function (req, res) {
    auth.authenticate(req, res,function(user){
@@ -98,7 +115,6 @@ app.post('/auth', function (req, res) {
 app.post('/crimenear',function(req,res){
     graph.crimeNear(req,res)
 })
-
 
 
 

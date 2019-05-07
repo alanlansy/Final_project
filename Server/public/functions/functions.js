@@ -104,3 +104,37 @@ function getTriangleCount(callback){
     http.send(params);
 
 }
+
+
+function getBetween(callback){
+    var http = new XMLHttpRequest();
+    var params = ''
+    http.open('GET','/between',true);
+    http.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var response=JSON.parse(http.responseText)
+            callback(response);
+            
+        }
+    }
+    http.send(params);
+
+}
+
+function getFriend(callback){
+    var http = new XMLHttpRequest();
+    var params = ''
+    http.open('GET','/friend',true);
+    http.setRequestHeader('content-type','application/x-www-form-urlencoded');
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            var response=JSON.parse(http.responseText)
+            callback(response);
+            
+        }
+    }
+    http.send(params);
+
+}
+

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Crime Analyser</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="all,follow">
+  <!-- Bootstrap CSS-->
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome CSS-->
+  <link rel="stylesheet" href="vendor/font-awesome/css/font-awesome.min.css">
+  <!-- Custom Font Icons CSS-->
+  <link rel="stylesheet" href="css/font.css">
+  <!-- Google fonts - Muli-->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
+  <!-- theme stylesheet-->
+  <link rel="stylesheet" href="css/style.default.css" id="theme-stylesheet">
+  <!-- Custom stylesheet - for your changes-->
+  <link rel="stylesheet" href="css/custom.css">
+  <!-- Favicon-->
+  <link rel="shortcut icon" href="img/Illuminati-PNG-Image.png">
+  <script src="functions/preventback.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+  <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
+
+  <style>
+    html {
+      visibility: hidden;
+    }
+
+    #viz {
+                width: 1200px;
+                height: 580px;
+                font: 10pt arial;
+            }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      width: 70%
+    }
+  </style>
+  <script src="functions/functions.js"></script>
+  <script src="functions/onload.js"></script>
+
+</head>
+
+<body>
+  <header class="header">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid d-flex align-items-center justify-content-between">
+        <div class="navbar-header">
+          <!-- Navbar Header-->
+          <a href="#" class="navbar-brand">
+            <div id="text1" class="brand-text brand-big visible text-uppercase"><strong class="text-primary"></strong><strong>Crime
+                Analyser</strong></div>
+            <div id="text2" class="brand-text brand-sm"><strong class="text-primary"></strong><strong>CA</strong></div>
+          </a>
+          <!-- Sidebar Toggle Btn-->
+        </div>
+        <div class="right-menu list-inline no-margin-bottom">
+          <div class="list-inline-item logout">
+            <a id="logout" href="/login" class="nav-link"> <span class="d-none d-sm-inline">Logout </span><i
+                class="icon-logout"></i></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="d-flex align-items-stretch">
+    <!-- Sidebar Navigation-->
+    <nav id="sidebar">
+      <!-- Sidebar Header-->
+      <div class="sidebar-header d-flex align-items-center">
+
+        <div class="title">
+          <h1 class="h5" id=name></h1>
+        </div>
+      </div>
+      <!-- Sidebar Navidation Menus-->
+      <!-- <span class="heading">Main</span> -->
+      <ul class="list-unstyled">
+        <li class="active"><a href="/dashboard"> <i class="icon-grid"></i>Analysis </a></li>
+        <li><a href="/prediction"> <i class="fa fa-bar-chart"></i>Prediction</a></li>
+
+      </ul>
+    </nav>
+    <div id="page" class="page-content">
+      <!-- Page Header-->
+      <div class="page-header no-margin-bottom">
+        <div class="container-fluid">
+          <h2 class="h5 no-margin-bottom">Triangle count</h2>
+        </div>
+      </div>
+      
+      <section class="no-padding-top">
+        <div class="container-fluid">
+
+          <div class="col-lg-20" style="padding-top:0.75%">                           
+            <div class="block">
+              <div class="block-body">
+                <form class="form-inline" id="quer">
+                  
+                    <input id="q"style="width:100%" type="text" placeholder="Enter Query" class="mr-sm-3 form-control">
+                  
+                    
+                </form>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="viz"></div>
+
+            
+        </div>
+      </section>
+    </script>
+    <script type="text/javascript">
+
+      var viz;
+
+     
+      function draw(q) {
+          var config = {
+              container_id: "viz",
+              server_url: "bolt://graphdb.ga:7687",
+              server_user: "neo4j",
+              server_password: "password",
+              labels: {
+                "Person": {
+                        "caption": "name",
+                        "font-size":"1"
+                    },
+                    "Crime": {
+                        "caption": "type",
+                        "font-size":"1"
+                    }
+                  
+              },
+              relationships: {
+                "KNOWS": {
+                        "thickness": "2",
+                        "caption": true
+                    },
+                    "PARTY_TO": {
+                        "thickness": "2",
+                        "caption": true
+                    }
+                  
+              },
+              initial_cypher: q
+          };
+
+          viz = new NeoVis.default(config);
+          viz.render();
+      }
+     
+  </script> 
+  <script>
+    var url = new URL(window.location.href);
+    var c = url.searchParams.get("q");
+    var query="MATCH path = (:Person {nhs_no:'"+c+"'})-[:KNOWS*..3]-(:Person) RETURN path"
+    $("#q").val(query)
+    draw($("#q").val())
+    $("#sidebar").attr('class', 'shrinked');
+        $("#page").attr('class', 'page-content active');
+        $("#text1").attr('class', ' brand-text brand-big text-uppercase');
+        $("#text2").attr('class', 'brand-text brand-sm visible');
+        window.scrollTo(0,140);
+
+  </script>
+    </div>
+    <footer class="footer">
+      <div class="footer__block block no-margin-bottom">
+        <div class="container-fluid text-center">
+          <p class="no-margin-bottom">2019 &copy; Crime Analyser</a>.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+
+
+
+ 
+ 
+  <!-- JavaScript files-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/popper.js/umd/popper.min.js"> </script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+  <script src="vendor/jquery.cookie/jquery.cookie.js"> </script>
+  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/jquery-validation/jquery.validate.min.js"></script>
+  <script src="js/front.js"></script>
+
+  
+
+  
+
+</body>
+
+</html>
