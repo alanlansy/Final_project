@@ -149,26 +149,26 @@
             </div>
           </div>
           <div class="row">
-              <div class="col-lg-6 ">
-                <div class="block "><a href="#betweenness" rel="modal:open">
-                    <h2 class="txt">Betweeness Centrality</h2>
-                  </a>
-                </div>
-              </div>
-              <div class="col-lg-6 ">
-                <div class="block "><a href="#friend" rel="modal:open">
-                    <h2 class="txt">Friend circle Analysis</h2>
-                  </a>
-                </div>
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#betweenness" rel="modal:open">
+                  <h2 class="txt">Betweeness Centrality</h2>
+                </a>
               </div>
             </div>
+            <div class="col-lg-6 ">
+              <div class="block "><a href="#friend" rel="modal:open">
+                  <h2 class="txt">Friend circle Analysis</h2>
+                </a>
+              </div>
+            </div>
+          </div>
 
         </div>
-        
 
-        </div>
+
     </div>
-    </section>
+  </div>
+  </section>
   </div>
   <footer class="footer">
     <div class="footer__block block no-margin-bottom">
@@ -183,11 +183,12 @@
   <!--Top crimes list-->
   <div id="topCrimes" class="modal" style="height:70%;width:50%">
     <table id="topCrimes">
-      <tr>
-        <th>Crime Type</th>
-        <th>Total</th>
-      </tr>
-
+      <thead>
+        <tr>
+          <th>Crime Type</th>
+          <th>Total</th>
+        </tr>
+      </thead>
 
     </table>
 
@@ -207,11 +208,12 @@
   <!--Top Hotspots-->
   <div id="topSpots" class="modal" style="height:70%;width:50%">
     <table id="topSpots">
-      <tr>
-        <th>Address</th>
-        <th>Postcode</th>
-      </tr>
-
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Postcode</th>
+        </tr>
+      </thead>
     </table>
 
   </div>
@@ -234,13 +236,15 @@
       <input type="submit">
     </form>
     <table id="crimeneartable" style="visibility:hidden">
-      <tr>
-        <th>Address</th>
-        <th>Postcode</th>
-        <th>Crime Type</th>
-        <th>Distance</th>
+      <thead>
+        <tr>
+          <th>Address</th>
+          <th>Postcode</th>
+          <th>Crime Type</th>
+          <th>Distance</th>
 
-      </tr>
+        </tr>
+      </thead>
     </table>
 
   </div>
@@ -320,44 +324,44 @@
 
   <!--Betweeness centrality-->
   <div id="betweenness" class="modal" style="height:auto;width:auto;margin-top:5%">
-      <table id="betweentable" class="display">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>ID</th>
-            <th>Count</th>
-          </tr>
-        </thead>
-        <tbody>
-  
-        </tbody>
-      </table>
-  
-    </div>
-    <script>
-  
-      getBetween(function (data) {
-        for (i = 0; i <= 9; i++) {
-          var markup1 = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[i]['_fields'][2]['low'] + "<td ><button onclick=" + "get1('" + data.records[i]['_fields'][1] + "')>Get Graph</button></td></tr>"
-          $("#betweentable").append(markup1)
-        }
-  
-      })
-  
-  
-      function get1(dat) {
-        window.location.href = "/showbetween?q=" + dat
+    <table id="betweentable" class="display">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+  </div>
+  <script>
+
+    getBetween(function (data) {
+      for (i = 0; i <= 9; i++) {
+        var markup1 = "<tr><td>" + data.records[i]['_fields'][0] + "</td>" + "<td >" + data.records[i]['_fields'][1] + "</td>" + "<td >" + data.records[i]['_fields'][2]['low'] + "<td ><button onclick=" + "get1('" + data.records[i]['_fields'][1] + "')>Get Graph</button></td></tr>"
+        $("#betweentable").append(markup1)
       }
-  
-    </script>
+
+    })
+
+
+    function get1(dat) {
+      window.location.href = "/showbetween?q=" + dat
+    }
+
+  </script>
 
 
 
-<!--friend circle analysis-->
+  <!--friend circle analysis-->
 
 
-<div id="friend" class="modal" style="height:auto;width:auto;margin-top:5%">
-    <table id="friendtable" class="display">
+  <div id="friend" class="modal" style="height:auto;width:auto;margin-top:5%;background: #2d3035">
+    <table id="friendtable" class="table table-dark table-striped">
       <thead>
         <tr>
           <th>Name</th>
