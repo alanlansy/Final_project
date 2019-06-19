@@ -4,10 +4,10 @@ Repository contains a project on crime analysis and prediction using graph minin
 **Instructions to run locally**
 
 Dependencies
-1.Nodejs
-2.Neo4j
-3.Python3
-4.mongoDB
+- Nodejs
+- Neo4j
+- Python3
+- mongoDB
 
 Steps to run 
 - clone the repository
