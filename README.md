@@ -22,7 +22,7 @@ Steps to run
  - navigate to prediction folder and open terminal there
  - install all dependencies of python packages using pip3
  - start server with python3 app.py
--this will start prediction module 
+- this will start prediction module 
 
 
 
