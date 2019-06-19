@@ -1,8 +1,7 @@
 Repository contains a project on crime analysis and prediction using graph mining which contains a webapp which uses neo4j graph database, python flask server, nodejs and mongodb as the backend.
 
 
-
-#Instructions to run locally
+Instructions to run locally
 
 Dependencies
 1.Nodejs
@@ -26,7 +25,9 @@ Steps to run
 6.this will start prediction module 
 
 
-#Instructions to load the graph db dump
+
+
+Instructions to load the graph db dump
 
 follow this comment of PawanWagh at https://github.com/neo4j/neo4j/issues/12041
 
