@@ -19,8 +19,8 @@ Steps to run
  - this will start the server at port 5000
  -you can access it now in browser localhost:5000
 - for prediction module you need to start the flask server for that
- -navigate to prediction folder and open terminal there
- -install all dependencies of python packages using npm 
+ - navigate to prediction folder and open terminal there
+ - install all dependencies of python packages using npm 
  - start server with python3 app.py
 -this will start prediction module 
 
